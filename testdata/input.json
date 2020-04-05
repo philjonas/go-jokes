@@ -1,0 +1,20 @@
+[
+   {
+      "id":385,
+      "type":"programming",
+      "setup":"3 SQL statements walk into a NoSQL bar. Soon, they walk out",
+      "punchline":"They couldn't find a table."
+   },
+   {
+      "id":382,
+      "type":"programming",
+      "setup":"What did the router say to the doctor?",
+      "punchline":"It hurts when IP."
+   },
+   {
+      "id":16,
+      "type":"programming",
+      "setup":"What's the object-oriented way to become wealthy?",
+      "punchline":"Inheritance"
+   }
+]
