@@ -9,13 +9,13 @@ import (
 
 func TestPullJokes(t *testing.T) {
 	// This is used to test how success is handled
-	inputJson, err := ioutil.ReadFile("testdata/input.json")
+	inputJSON, err := ioutil.ReadFile("testdata/input.json")
 	if err != nil {
 		t.Errorf("JSON file not found, %s", err)
 	}
 
 	var jokes Jokes
-	if err := json.Unmarshal(inputJson, &jokes); err != nil {
+	if err := json.Unmarshal(inputJSON, &jokes); err != nil {
 		t.Errorf("%+v", err)
 	}
 

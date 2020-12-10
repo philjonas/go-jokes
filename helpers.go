@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -54,11 +55,11 @@ func waitForShutdown(srv *http.Server) {
 	os.Exit(0)
 }
 
-func newServer() *http.Server {
+func newServer(h *HandlerContainer) *http.Server {
 	// Create Server and Route Handlers
 	r := mux.NewRouter()
 
-	r.HandleFunc("/", handler)
+	r.HandleFunc("/", h.Handler)
 
 	srv := &http.Server{
 		Handler:      r,
@@ -75,4 +76,15 @@ func serveAPI(srv *http.Server) {
 	if err := srv.ListenAndServe(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+//HandlerContainer struct
+type HandlerContainer struct {
+	jokeCache *JokeCache
+}
+
+// Handler etc
+func (c *HandlerContainer) Handler(w http.ResponseWriter, r *http.Request) {
+	// outputting the cache
+	w.Write([]byte(fmt.Sprintf("%+v", c.jokeCache.Get())))
 }

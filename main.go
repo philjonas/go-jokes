@@ -2,16 +2,15 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
-	"net/http"
 	"time"
 )
 
-var jokeCache JokeCache
-
 func main() {
-	server := newServer()
+	var jokeCache JokeCache
+	var handlerContainer HandlerContainer
+	handlerContainer.jokeCache = &jokeCache
+	server := newServer(&handlerContainer)
 
 	//1. Pull in the jokes.
 	getJokes(&jokeCache, "https://official-joke-api.appspot.com/jokes/programming/ten")
@@ -39,20 +38,15 @@ func getJokesPeriodically(cache *JokeCache) {
 }
 
 func getJokes(allJokes *JokeCache, url string) {
-	inputJson := jsonClient(url)
+	inputJSON := jsonClient(url)
 
 	var newJokes Jokes
 
-	if err := json.Unmarshal(inputJson, &newJokes); err != nil {
+	if err := json.Unmarshal(inputJSON, &newJokes); err != nil {
 		log.Fatal(err)
 	}
 
 	allJokes.Append(newJokes)
 
 	log.Printf("Size of slice: %d", allJokes.Length())
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	// outputting the cache
-	w.Write([]byte(fmt.Sprintf("%+v", jokeCache.Get())))
 }
